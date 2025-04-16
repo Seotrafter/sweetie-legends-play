@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweetie Legends - Match 3 Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel='icon' href='/src/icons/logo.png' type='image/x-icon'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            text-shadow: 0 0 10px rgba(255, 66, 116, 0.7);
+        }
+
+        .candy-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border-radius: 0;
+        }
+
+        .candy-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .candy-button:hover:before {
+            left: 100%;
+        }
+
+        section {
+            overflow: hidden;
+        }
+
+        /* Animation for section transitions */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section>div {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Table styles */
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table th {
+            font-weight: bold;
+        }
+
+        table th,
+        table td {
+            border: 2px solid #ff4274;
+        }
+
+        /* Link hover effect */
+        a.hover\:underline:hover {
+            text-decoration: none;
+            position: relative;
+        }
+
+        a.hover\:underline:hover:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff4274;
+            animation: linkUnderline 0.3s ease-in-out forwards;
+        }
+
+        @keyframes linkUnderline {
+            from {
+                transform: scaleX(0);
+            }
+
+            to {
+                transform: scaleX(1);
+            }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff4274',
+                        secondary: '#abdfab',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-white">
+    <!-- Header -->
+    <header class="bg-primary sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="/" class="flex items-center">
+                    <div class="bg-white rounded-full w-12 h-12 flex items-center justify-center mr-3">
+                        <span class="text-3xl">🍭</span>
+                    </div>
+                    <h1 class="text-white font-bold text-xl md:text-2xl glow">Sweetie Legends</h1>
+                </a>
+
+                <nav class="hidden md:flex space-x-8">
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Features</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Pets</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Gameplay</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Reviews</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Download</a>
+                </nav>
+
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-white text-2xl focus:outline-none">≡</button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Features</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Pets</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Gameplay</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Reviews</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Download</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Cookie Policy Header Section -->
+    <section class="py-16 md:py-24 bg-primary relative overflow-hidden">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 glow">Cookie Policy</h1>
+                <p class="text-xl text-white mb-8 max-w-3xl mx-auto">For Sweetie Legends - Match 3 Game</p>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120">
+                <path fill="#ffffff" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,69.3C960,85,1056,107,1152,101.3C1248,96,1344,64,1392,48L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-secondary p-8 shadow-xl mb-8">
+                    <div class="flex justify-center mb-6">
+                        <span class="text-6xl">🍪</span>
+                    </div>
+                    <p class="text-xl text-primary mb-6">
+                        This Cookie Policy explains how Sweetie Legends - Match 3 Game ("we", "us", or "our") uses cookies and similar technologies when you visit our website at https://sweetie-legends-play.com/ or play our mobile game.
+                    </p>
+                    <p class="text-xl text-primary">
+                        We use cookies to enhance your experience, analyze our traffic, and for advertising purposes. By continuing to browse our website or play our game, you consent to our use of cookies as described in this policy.
+                    </p>
+                </div>
+
+                <!-- What Are Cookies Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🍪</span> What Are Cookies?
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-4">
+                            Cookies are small text files that are placed on your device (computer, tablet, or mobile) when you visit websites. They are widely used to make websites work more efficiently, provide a better user experience, and give website owners information about how their site is being used.
+                        </p>
+                        <p class="text-lg text-primary mb-4">
+                            Cookies may be either "persistent" cookies or "session" cookies. A persistent cookie remains on your device for a specified period of time and is activated each time you visit the website that created that particular cookie. A session cookie is temporary and is deleted when you close your browser.
+                        </p>
+                        <p class="text-lg text-primary">
+                            Similar technologies like web beacons, pixels, and local storage can also be used for these purposes. In this policy, we refer to all of these technologies as "cookies."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Types of Cookies We Use Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🔍</span> Types of Cookies We Use
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-6">
+                            We use different types of cookies for various purposes:
+                        </p>
+
+                        <div class="mb-6">
+                            <h3 class="text-xl font-bold text-primary mb-3 flex items-center">
+                                <span class="text-2xl mr-2">✅</span> Essential Cookies
+                            </h3>
+                            <p class="text-lg text-primary ml-8">
+                                These cookies are necessary for the website to function properly. They enable basic functions like page navigation, game progress saving, and access to secure areas of the website. The website cannot function properly without these cookies.
+                            </p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 class="text-xl font-bold text-primary mb-3 flex items-center">
+                                <span class="text-2xl mr-2">🛠️</span> Functional Cookies
+                            </h3>
+                            <p class="text-lg text-primary ml-8">
+                                These cookies allow the website to remember choices you make (such as your username, language, or region) and provide enhanced, personalized features. They may also be used to provide services you have requested, like watching a video or playing our game.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- More Cookie Types Section -->
+    <section class="py-12 md:py-16 bg-secondary">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white border-2 border-primary p-6 mb-12">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold text-primary mb-3 flex items-center">
+                            <span class="text-2xl mr-2">📊</span> Performance/Analytics Cookies
+                        </h3>
+                        <p class="text-lg text-primary ml-8">
+                            These cookies collect information about how you use our website and game, such as which pages you visit most often and if you receive error messages. This data helps us improve how our website and game work. These cookies don't collect information that identifies you personally—all the information is aggregated and anonymous.
+                        </p>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold text-primary mb-3 flex items-center">
+                            <span class="text-2xl mr-2">🎯</span> Targeting/Advertising Cookies
+                        </h3>
+                        <p class="text-lg text-primary ml-8">
+                            These cookies are used to deliver advertisements more relevant to you and your interests. They are also used to limit the number of times you see an advertisement and help measure the effectiveness of advertising campaigns. They remember that you have visited a website and this information may be shared with other organizations such as advertisers.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-bold text-primary mb-3 flex items-center">
+                            <span class="text-2xl mr-2">🌐</span> Social Media Cookies
+                        </h3>
+                        <p class="text-lg text-primary ml-8">
+                            These cookies are set by social media services that we have added to the site to enable you to share our content with your friends and networks. They are capable of tracking your browser across other sites and building up a profile of your interests. This may impact the content and messages you see on other websites you visit.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Specific Cookies We Use Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">📋</span> Specific Cookies We Use
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-6">
+                            Below is a list of the main cookies we use and what we use them for:
+                        </p>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse">
+                                <thead>
+                                    <tr class="bg-primary text-white">
+                                        <th class="border border-primary p-3 text-left">Cookie Name</th>
+                                        <th class="border border-primary p-3 text-left">Type</th>
+                                        <th class="border border-primary p-3 text-left">Purpose</th>
+                                        <th class="border border-primary p-3 text-left">Duration</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border border-primary p-3 text-primary">session_id</td>
+                                        <td class="border border-primary p-3 text-primary">Essential</td>
+                                        <td class="border border-primary p-3 text-primary">Maintains your session while you play the game</td>
+                                        <td class="border border-primary p-3 text-primary">Session</td>
+                                    </tr>
+                                    <tr class="bg-secondary bg-opacity-30">
+                                        <td class="border border-primary p-3 text-primary">user_preferences</td>
+                                        <td class="border border-primary p-3 text-primary">Functional</td>
+                                        <td class="border border-primary p-3 text-primary">Remembers your game settings and preferences</td>
+                                        <td class="border border-primary p-3 text-primary">1 year</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-primary p-3 text-primary">game_progress</td>
+                                        <td class="border border-primary p-3 text-primary">Functional</td>
+                                        <td class="border border-primary p-3 text-primary">Saves your game progress</td>
+                                        <td class="border border-primary p-3 text-primary">1 year</td>
+                                    </tr>
+                                    <tr class="bg-secondary bg-opacity-30">
+                                        <td class="border border-primary p-3 text-primary">_ga</td>
+                                        <td class="border border-primary p-3 text-primary">Analytics</td>
+                                        <td class="border border-primary p-3 text-primary">Used by Google Analytics to distinguish users</td>
+                                        <td class="border border-primary p-3 text-primary">2 years</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-primary p-3 text-primary">_gid</td>
+                                        <td class="border border-primary p-3 text-primary">Analytics</td>
+                                        <td class="border border-primary p-3 text-primary">Used by Google Analytics to distinguish users</td>
+                                        <td class="border border-primary p-3 text-primary">24 hours</td>
+                                    </tr>
+                                    <tr class="bg-secondary bg-opacity-30">
+                                        <td class="border border-primary p-3 text-primary">_fbp</td>
+                                        <td class="border border-primary p-3 text-primary">Advertising</td>
+                                        <td class="border border-primary p-3 text-primary">Used by Facebook to deliver advertisements</td>
+                                        <td class="border border-primary p-3 text-primary">3 months</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-primary p-3 text-primary">_gat</td>
+                                        <td class="border border-primary p-3 text-primary">Analytics</td>
+                                        <td class="border border-primary p-3 text-primary">Used by Google Analytics to throttle request rate</td>
+                                        <td class="border border-primary p-3 text-primary">1 minute</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p class="text-lg text-primary mt-6">
+                            This list is not exhaustive, and we may update it as our website and cookie usage evolves.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Third-Party Cookies Section -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🔄</span> Third-Party Cookies
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-6">
+                            In addition to our own cookies, we may also use various third-party cookies to report usage statistics, deliver advertisements, and so on.
+                        </p>
+                        <div class="bg-secondary p-6 mb-6">
+                            <h3 class="text-xl font-bold text-primary mb-3">Google Analytics</h3>
+                            <p class="text-lg text-primary">
+                                We use Google Analytics to help us understand how our users engage with the website. Google Analytics uses cookies to collect information such as how often users visit the site, what pages they visit, and what other sites they used prior to coming to our site. Learn more about <a href="https://policies.google.com/technologies/cookies" class="text-primary font-bold hover:underline">Google Analytics cookies</a>.
+                            </p>
+                        </div>
+                        <div class="bg-secondary p-6 mb-6">
+                            <h3 class="text-xl font-bold text-primary mb-3">Google AdSense</h3>
+                            <p class="text-lg text-primary">
+                                We use Google AdSense to display advertisements on our website. Google AdSense may use cookies for the purpose of showing relevant advertisements. Learn more about <a href="https://policies.google.com/technologies/ads" class="text-primary font-bold hover:underline">Google AdSense cookies</a>.
+                            </p>
+                        </div>
+                        <div class="bg-secondary p-6">
+                            <h3 class="text-xl font-bold text-primary mb-3">Social Media</h3>
+                            <p class="text-lg text-primary">
+                                We use social media buttons and/or plugins on this site that allow you to connect with your social network in various ways. These sites may set cookies through our site which may be used to enhance your profile on their site or contribute to the data they hold for various purposes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Managing Cookies Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">⚙️</span> Managing Your Cookies
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-6">
+                            You can control and/or delete cookies as you wish. You can delete all cookies that are already on your device and you can set most browsers to prevent them from being placed. However, if you do this, you may have to manually adjust some preferences every time you visit our site and some features may not work as expected.
+                        </p>
+                        <p class="text-lg text-primary mb-6">
+                            Here's how to manage cookies in different browsers:
+                        </p>
+                        <ul class="list-disc list-inside pl-4 mb-6">
+                            <li class="text-lg text-primary mb-3">
+                                <strong>Chrome</strong>: Settings → Privacy and security → Cookies and other site data
+                            </li>
+                            <li class="text-lg text-primary mb-3">
+                                <strong>Firefox</strong>: Options → Privacy & Security → Cookies and Site Data
+                            </li>
+                            <li class="text-lg text-primary mb-3">
+                                <strong>Safari</strong>: Preferences → Privacy → Cookies and website data
+                            </li>
+                            <li class="text-lg text-primary mb-3">
+                                <strong>Edge</strong>: Settings → Cookies and site permissions → Cookies and site data
+                            </li>
+                        </ul>
+                        <p class="text-lg text-primary">
+                            For more information about cookies and instructions on how to adjust your browser settings to restrict or disable cookies, see <a href="https://www.aboutcookies.org/" class="text-primary font-bold hover:underline">aboutcookies.org</a> or <a href="https://www.allaboutcookies.org/" class="text-primary font-bold hover:underline">allaboutcookies.org</a>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Cookie Policy Updates Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🔄</span> Changes to Our Cookie Policy
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-4">
+                            We may update this Cookie Policy from time to time to reflect changes in technology, regulation, or our business practices. Any changes will become effective when we post the revised policy on this page.
+                        </p>
+                        <p class="text-lg text-primary mb-4">
+                            We encourage you to periodically review this page to stay informed about our use of cookies.
+                        </p>
+                        <p class="text-lg text-primary">
+                            This Cookie Policy was last updated on March 20, 2025.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Contact Us Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">📞</span> Contact Us
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary">
+                            If you have any questions about our use of cookies or this Cookie Policy, please contact us at <a href="mailto:privacy@sweetie-legends-play.com" class="text-primary font-bold hover:underline">privacy@sweetie-legends-play.com</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-12 md:py-16 bg-secondary">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-primary mb-8 glow">Ready to play?</h2>
+            <a href="/" class="candy-button inline-block bg-primary text-white text-xl font-bold py-4 px-8 shadow-lg hover:bg-primary hover:shadow-xl transform hover:scale-105 transition">
+                Back to Game
+            </a>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-primary py-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <a href="/" class="flex items-center mb-6 md:mb-0">
+                    <div class="bg-white rounded-full w-12 h-12 flex items-center justify-center mr-3">
+                        <span class="text-3xl">🍭</span>
+                    </div>
+                    <h1 class="text-white font-bold text-xl md:text-2xl glow">Sweetie Legends</h1>
+                </a>
+
+                <div class="flex flex-wrap justify-center gap-6">
+                    <a href="/Policy356/" class="text-white hover:text-secondary transition">Privacy Policy</a>
+                    <a href="/Service347/" class="text-white hover:text-secondary transition">Terms of Use</a>
+                    <a href="/Cookie992/" class="text-white hover:text-secondary transition">Cookie Policy</a>
+
+                </div>
+            </div>
+
+            <div class="border-t border-white border-opacity-20 pt-6">
+                <p class="text-white text-center">© 2025 Sweetie Legends. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu after clicking a link
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+    <?php include '../cookie-consent.php'; ?>
+</body>
+
+</html>

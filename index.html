@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweetie Legends - Match 3 Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel='icon' href='/src/icons/logo.png' type='image/x-icon'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            text-shadow: 0 0 10px rgba(255, 66, 116, 0.7);
+        }
+
+        .candy-bg {
+            background-image: url('/src/img/hero.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+
+
+        .hero-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff4274' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .pet-card {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .pet-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .candy-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .candy-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .candy-button:hover:before {
+            left: 100%;
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .zigzag-border {
+            position: relative;
+        }
+
+        .zigzag-border:after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background: linear-gradient(45deg, #ff4274 25%, transparent 25%) 0 15px,
+                linear-gradient(-45deg, #ff4274 25%, transparent 25%) 0 15px,
+                linear-gradient(45deg, transparent 75%, #ff4274 75%) 0 0,
+                linear-gradient(-45deg, transparent 75%, #ff4274 75%) 0 0;
+            background-size: 30px 30px;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff4274',
+                        secondary: '#abdfab',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-white">
+    <!-- Header -->
+    <header class="bg-primary sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="/" class="flex items-center">
+                    <div class="bg-white rounded-full w-12 h-12 flex items-center justify-center mr-3">
+                        <span class="text-3xl">🍭</span>
+                    </div>
+                    <h1 class="text-white font-bold text-xl md:text-2xl glow">Sweetie Legends</h1>
+                </a>
+
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#features" class="text-white font-bold hover:text-secondary transition">Features</a>
+                    <a href="#pets" class="text-white font-bold hover:text-secondary transition">Pets</a>
+                    <a href="#gameplay" class="text-white font-bold hover:text-secondary transition">Gameplay</a>
+                    <a href="#testimonials" class="text-white font-bold hover:text-secondary transition">Reviews</a>
+                    <a href="#download" class="text-white font-bold hover:text-secondary transition">Download</a>
+                </nav>
+
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-white text-2xl focus:outline-none">≡</button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="#features" class="text-white font-bold hover:text-secondary transition">Features</a>
+                    <a href="#pets" class="text-white font-bold hover:text-secondary transition">Pets</a>
+                    <a href="#gameplay" class="text-white font-bold hover:text-secondary transition">Gameplay</a>
+                    <a href="#testimonials" class="text-white font-bold hover:text-secondary transition">Reviews</a>
+                    <a href="#download" class="text-white font-bold hover:text-secondary transition">Download</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class=" hero-pattern bg-secondary relative overflow-hidden">
+        <div class="container mx-auto px-4 py-16 md:py-24">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 text-center md:text-left mb-10 md:mb-0">
+                    <h1 class="text-4xl md:text-6xl font-bold text-primary mb-6">Begin Your Sweet Adventure!</h1>
+                    <p class="text-xl md:text-2xl text-primary mb-8">Join magical kittens and puppies on an exciting match 3 journey filled with puzzles, challenges, and sweet rewards!</p>
+                    <div class="flex justify-center md:justify-start">
+                        <a href="#download" class="candy-button bg-primary text-white text-xl font-bold py-4 px-8 rounded-md shadow-lg hover:bg-primary hover:shadow-xl transform hover:scale-105 transition">
+                            PLAY NOW 🎮
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120">
+                <path fill="#ffffff" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,69.3C960,85,1056,107,1152,101.3C1248,96,1344,64,1392,48L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class=" py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl md:text-5xl font-bold text-primary text-center mb-16 glow">Magical Features</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-secondary p-8 shadow-xl transform hover:scale-105 transition duration-300">
+                    <div class="feature-icon text-center text-primary">🧩</div>
+                    <h3 class="text-2xl font-bold text-primary text-center mb-4">Challenging Puzzles</h3>
+                    <p class="text-xl text-primary text-center">Dive into a world of exciting match-3 puzzles that test your strategic thinking and bring immense satisfaction!</p>
+                </div>
+
+                <div class="bg-primary p-8 shadow-xl transform hover:scale-105 transition duration-300">
+                    <div class="feature-icon text-center text-white">🐱</div>
+                    <h3 class="text-2xl font-bold text-white text-center mb-4">Magical Pets</h3>
+                    <p class="text-xl text-white text-center">Collect and upgrade adorable furry friends with unique abilities that help you overcome challenging obstacles!</p>
+                </div>
+
+                <div class="bg-secondary p-8 shadow-xl transform hover:scale-105 transition duration-300">
+                    <div class="feature-icon text-center text-primary">🏰</div>
+                    <h3 class="text-2xl font-bold text-primary text-center mb-4">Build Your Paradise</h3>
+                    <p class="text-xl text-primary text-center">Create your own unique game paradise by building magical structures and picturesque landscapes!</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <div class="bg-primary p-8 shadow-xl transform hover:scale-105 transition duration-300">
+                    <div class="feature-icon text-center text-white">🎁</div>
+                    <h3 class="text-2xl font-bold text-white text-center mb-4">Exciting Events</h3>
+                    <p class="text-xl text-white text-center">Participate in thrilling events to win diamonds and exclusive rewards for your game progress!</p>
+                </div>
+
+                <div class="bg-secondary p-8 shadow-xl transform hover:scale-105 transition duration-300">
+                    <div class="feature-icon text-center text-primary">⚡</div>
+                    <h3 class="text-2xl font-bold text-primary text-center mb-4">Power-Ups</h3>
+                    <p class="text-xl text-primary text-center">Unlock powerful boosters that help you quickly and effectively overcome obstacles and clear candies!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pets Section -->
+    <section id="pets" class="py-16 md:py-24 bg-primary relative overflow-hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl md:text-5xl font-bold text-white text-center mb-16 glow">Meet Your Furry Friends</h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="pet-card bg-white p-6 shadow-xl">
+                    <div class="w-24 h-24 mx-auto mb-4 bg-secondary rounded-full flex items-center justify-center">
+                        <span class="text-4xl">🐱</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary text-center mb-2">Candy Cat</h3>
+                    <p class="text-lg text-primary text-center">Creates special candy bombs that clear large areas on the board!</p>
+                </div>
+
+                <div class="pet-card bg-white p-6 shadow-xl">
+                    <div class="w-24 h-24 mx-auto mb-4 bg-secondary rounded-full flex items-center justify-center">
+                        <span class="text-4xl">🐶</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary text-center mb-2">Puzzle Pup</h3>
+                    <p class="text-lg text-primary text-center">Removes specific obstacles that block your path to victory!</p>
+                </div>
+
+                <div class="pet-card bg-white p-6 shadow-xl">
+                    <div class="w-24 h-24 mx-auto mb-4 bg-secondary rounded-full flex items-center justify-center">
+                        <span class="text-4xl">🐰</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary text-center mb-2">Bunny Booster</h3>
+                    <p class="text-lg text-primary text-center">Gives you extra moves when you're about to run out!</p>
+                </div>
+
+                <div class="pet-card bg-white p-6 shadow-xl">
+                    <div class="w-24 h-24 mx-auto mb-4 bg-secondary rounded-full flex items-center justify-center">
+                        <span class="text-4xl">🦊</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary text-center mb-2">Fox Friend</h3>
+                    <p class="text-lg text-primary text-center">Creates powerful combinations to help clear challenging levels!</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="#download" class="candy-button inline-block bg-white text-primary text-xl font-bold py-4 px-8 rounded-md shadow-lg hover:bg-white hover:shadow-xl transform hover:scale-105 transition">
+                    COLLECT THEM ALL 🎮
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120">
+                <path fill="#ffffff" fill-opacity="1" d="M0,96L48,90.7C96,85,192,75,288,64C384,53,480,43,576,53.3C672,64,768,96,864,96C960,96,1056,64,1152,53.3C1248,43,1344,53,1392,58.7L1440,64L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Gameplay Section -->
+    <section id="gameplay" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl md:text-5xl font-bold text-primary text-center mb-16 glow">How To Play</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <img src="/src/img/gameplay.png" alt="Sweetie Legends Gameplay" class="mx-auto">
+                </div>
+
+                <div>
+                    <div class="bg-secondary p-6 mb-6 transform hover:scale-105 transition duration-300">
+                        <h3 class="text-2xl font-bold text-primary flex items-center">
+                            <span class="text-3xl mr-3">🍬</span> Match Candies
+                        </h3>
+                        <p class="text-xl text-primary mt-2">Slide 3 or more candies of the same color to create matches and clear the board!</p>
+                    </div>
+
+                    <div class="bg-primary p-6 mb-6 transform hover:scale-105 transition duration-300">
+                        <h3 class="text-2xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">💥</span> Break Obstacles
+                        </h3>
+                        <p class="text-xl text-white mt-2">Smash as many colored obstacles as you can to remove them from your path!</p>
+                    </div>
+
+                    <div class="bg-secondary p-6 mb-6 transform hover:scale-105 transition duration-300">
+                        <h3 class="text-2xl font-bold text-primary flex items-center">
+                            <span class="text-3xl mr-3">🐱</span> Use Pet Skills
+                        </h3>
+                        <p class="text-xl text-primary mt-2">Leverage your pets' abilities to overcome challenging match-3 levels and collect endless treasures!</p>
+                    </div>
+
+                    <div class="bg-primary p-6 mb-6 transform hover:scale-105 transition duration-300">
+                        <h3 class="text-2xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🏰</span> Build Your City
+                        </h3>
+                        <p class="text-xl text-white mt-2">Complete exciting match-3 levels to earn building coins and restore your magical city!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="candy-bg py-16 md:py-24 relative">
+        <div class="absolute inset-0 bg-primary bg-opacity-90"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold text-white text-center mb-16 glow">Player Reviews</h2>
+
+            <div class="flex justify-center mb-8">
+                <div class="flex items-center justify-center space-x-2">
+                    <span class="text-4xl">⭐️</span>
+                    <span class="text-4xl">⭐️</span>
+                    <span class="text-4xl">⭐️</span>
+                    <span class="text-4xl">⭐️</span>
+                    <span class="text-4xl">⭐️</span>
+                </div>
+            </div>
+
+            <p class="text-3xl text-white text-center font-bold mb-8">4.5 Rating from 2,930+ Reviews</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 shadow-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400">
+                            <span>⭐️</span>
+                            <span>⭐️</span>
+                            <span>⭐️</span>
+                            <span>⭐️</span>
+                            <span>⭐️</span>
+                        </div>
+                    </div>
+                    <p class="text-xl text-primary mb-4">"This game is absolutely addictive! I love the cute pets and how they help me win levels. The graphics are stunning and gameplay is super fun!"</p>
+                    <p class="text-lg font-bold text-primary">- Emily T.</p>
+                </div>
+
+                <div class="bg-white p-6 shadow-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400">
+                            <span>⭐️</span>
+                            <span>⭐️</span>
+                            <span>⭐️</span>
+                            <span>⭐️</span>
+                            <span>⭐️</span>
+                        </div>
+                    </div>
+                    <p class="text-xl text-primary mb-4">"The cutest match-3 game I've ever played! I love rebuilding the city and collecting all the adorable pets. Perfect way to relax!"</p>
+                    <p class="text-lg font-bold text-primary">- James K.</p>
+                </div>
+
+                <div class="bg-white p-6 shadow-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400">
+                            <span>⭐️</span>
+                            <span>⭐️</span>
+                            <span>⭐️</span>
+                            <span>⭐️</span>
+                            <span>⭐️</span>
+                        </div>
+                    </div>
+                    <p class="text-xl text-primary mb-4">"I can't put this game down! The levels are challenging but not frustrating. Love the special events and all the cool rewards!"</p>
+                    <p class="text-lg font-bold text-primary">- Sophie L.</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <div class="inline-block bg-white py-4 px-8 shadow-lg">
+                    <p class="text-2xl text-primary font-bold">50,000+ Downloads</p>
+                    <p class="text-xl text-primary">Join our sweet community today!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="py-16 md:py-24 bg-secondary">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl md:text-5xl font-bold text-primary text-center mb-16 glow">Download Now!</h2>
+
+            <div class="flex flex-col md:flex-row items-center justify-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <img src="/src/img/download.png" alt="Sweetie Legends App" class="mx-auto floating">
+                </div>
+
+                <div class="md:w-1/2 text-center md:text-left">
+                    <h3 class="text-3xl font-bold text-primary mb-6">Ready for a Sweet Adventure?</h3>
+                    <p class="text-xl text-primary mb-8">Join millions of players who have embraced the match-3 magic of Sweetie Legends. Download now and embark on an unforgettable journey filled with magical pets, challenging puzzles, and endless fun!</p>
+
+                    <div class="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="https://apps.apple.com/us/app/sweetie-legends-match-3-game/id1660209388" target="_blank" class="candy-button bg-primary text-white text-xl font-bold py-4 px-8 rounded-md shadow-lg hover:bg-primary hover:shadow-xl transform hover:scale-105 transition flex items-center justify-center">
+                            <span class="text-3xl mr-2">📱</span> App Store
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.qingyuegames.petmatch" target="_blank" class="candy-button bg-primary text-white text-xl font-bold py-4 px-8 rounded-md shadow-lg hover:bg-primary hover:shadow-xl transform hover:scale-105 transition flex items-center justify-center">
+                            <span class="text-3xl mr-2">🤖</span> Google Play
+                        </a>
+                    </div>
+
+                    <div class="mt-8">
+                        <p class="text-lg text-primary"><span class="font-bold">4.5 ⭐️</span> | <span class="font-bold">50,000+</span> Downloads | <span class="font-bold">Ages 3+</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary py-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <a href="/" class="flex items-center mb-6 md:mb-0">
+                    <div class="bg-white rounded-full w-12 h-12 flex items-center justify-center mr-3">
+                        <span class="text-3xl">🍭</span>
+                    </div>
+                    <h1 class="text-white font-bold text-xl md:text-2xl glow">Sweetie Legends</h1>
+                </a>
+
+                <div class="flex flex-wrap justify-center gap-6">
+                    <a href="/Policy356/" class="text-white hover:text-secondary transition">Privacy Policy</a>
+                    <a href="/Service347/" class="text-white hover:text-secondary transition">Terms of Use</a>
+                    <a href="/Cookie992/" class="text-white hover:text-secondary transition">Cookie Policy</a>
+
+                </div>
+            </div>
+
+            <div class="border-t border-white border-opacity-20 pt-6">
+                <p class="text-white text-center">© 2025 Sweetie Legends. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu after clicking a link
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+    <?php include 'cookie-consent.php'; ?>
+</body>
+
+</html>

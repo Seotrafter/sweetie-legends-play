@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweetie Legends - Match 3 Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel='icon' href='/src/icons/logo.png' type='image/x-icon'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            text-shadow: 0 0 10px rgba(255, 66, 116, 0.7);
+        }
+
+        .glow {
+            text-shadow: 0 0 10px rgba(255, 66, 116, 0.7);
+        }
+
+        .candy-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border-radius: 0;
+        }
+
+        .candy-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .candy-button:hover:before {
+            left: 100%;
+        }
+
+        section {
+            overflow: hidden;
+        }
+
+        /* Animation for section transitions */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section>div {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Highlight effect for lists */
+        ul.list-disc li {
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        ul.list-disc li:hover {
+            transform: translateX(5px);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff4274',
+                        secondary: '#abdfab',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-white">
+    <!-- Header -->
+    <header class="bg-primary sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="/" class="flex items-center">
+                    <div class="bg-white rounded-full w-12 h-12 flex items-center justify-center mr-3">
+                        <span class="text-3xl">🍭</span>
+                    </div>
+                    <h1 class="text-white font-bold text-xl md:text-2xl glow">Sweetie Legends</h1>
+                </a>
+
+                <nav class="hidden md:flex space-x-8">
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Features</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Pets</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Gameplay</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Reviews</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Download</a>
+                </nav>
+
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-white text-2xl focus:outline-none">≡</button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Features</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Pets</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Gameplay</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Reviews</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Download</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Terms Header Section -->
+    <section class="py-16 md:py-24 bg-primary relative overflow-hidden">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 glow">Terms and Conditions</h1>
+                <p class="text-xl text-white mb-8 max-w-3xl mx-auto">Welcome to Sweetie Legends - Match 3 Game!</p>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120">
+                <path fill="#ffffff" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,69.3C960,85,1056,107,1152,101.3C1248,96,1344,64,1392,48L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-secondary p-8 shadow-xl mb-8">
+                    <p class="text-xl text-primary mb-6">
+                        These terms and conditions outline the rules and regulations for the use of Sweetie Legends - Match 3 Game's Website, located at https://sweetie-legends-play.com/.
+                    </p>
+                    <p class="text-xl text-primary mb-6">
+                        By accessing this website, we assume you accept these terms and conditions. Do not continue to use Sweetie Legends - Match 3 Game if you do not agree to take all of the terms and conditions stated on this page.
+                    </p>
+                </div>
+
+                <!-- Terminology Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">📝</span> Terminology
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-6">
+                            The following terminology applies to these Terms and Conditions, Privacy Statement, and Disclaimer Notice and all Agreements:
+                        </p>
+                        <ul class="list-disc list-inside pl-4 mb-6">
+                            <li class="text-lg text-primary mb-3">
+                                <span class="font-bold">"Client," "You," and "Your"</span> refer to you, the person logging on to this website and compliant with the Company's terms and conditions.
+                            </li>
+                            <li class="text-lg text-primary mb-3">
+                                <span class="font-bold">"The Company," "Ourselves," "We," "Our," and "Us"</span> refer to our Company.
+                            </li>
+                            <li class="text-lg text-primary mb-3">
+                                <span class="font-bold">"Party," "Parties," or "Us"</span> refer to both the Client and ourselves.
+                            </li>
+                        </ul>
+                        <p class="text-lg text-primary">
+                            All terms refer to the offer, acceptance, and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client's needs in respect of the provision of the Company's stated services, in accordance with and subject to the prevailing law of the Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization, and/or he/she or they are taken as interchangeable and therefore as referring to the same.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Cookies Section -->
+    <section class="py-12 md:py-16 bg-secondary">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🍪</span> Cookies
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-4">
+                            We employ the use of cookies. By accessing Sweetie Legends - Match 3 Game, you agreed to use cookies in agreement with Sweetie Legends - Match 3 Game's Privacy Policy.
+                        </p>
+                        <p class="text-lg text-primary">
+                            Most interactive websites use cookies to retrieve the user's details for each visit. Cookies are used by our website to enable the functionality of certain areas, making it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- License Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">📄</span> License
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-6">
+                            Unless otherwise stated, Sweetie Legends - Match 3 Game and/or its licensors own the intellectual property rights for all material on Sweetie Legends - Match 3 Game. All intellectual property rights are reserved. You may access this from Sweetie Legends - Match 3 Game for your personal use, subject to restrictions set in these terms and conditions.
+                        </p>
+                        <p class="text-lg text-primary mb-4 font-bold">
+                            You must not:
+                        </p>
+                        <ul class="list-disc list-inside pl-4 mb-6">
+                            <li class="text-lg text-primary mb-2">
+                                Republish material from Sweetie Legends - Match 3 Game
+                            </li>
+                            <li class="text-lg text-primary mb-2">
+                                Sell, rent, or sub-license material from Sweetie Legends - Match 3 Game
+                            </li>
+                            <li class="text-lg text-primary mb-2">
+                                Reproduce, duplicate, or copy material from Sweetie Legends - Match 3 Game
+                            </li>
+                            <li class="text-lg text-primary mb-2">
+                                Redistribute content from Sweetie Legends - Match 3 Game
+                            </li>
+                        </ul>
+                        <p class="text-lg text-primary">
+                            This Agreement shall begin on the date hereof.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Comments Section -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">💬</span> User Comments
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-4">
+                            Parts of this website allow users to post and exchange opinions and information in certain areas. Sweetie Legends - Match 3 Game does not filter, edit, publish, or review Comments before their presence on the website. Comments do not reflect the views and opinions of Sweetie Legends - Match 3 Game, its agents, and/or affiliates. Comments reflect the views and opinions of the person who posts them.
+                        </p>
+                        <p class="text-lg text-primary mb-4">
+                            To the extent permitted by applicable laws, Sweetie Legends - Match 3 Game shall not be liable for Comments or for any liability, damages, or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of Comments on this website.
+                        </p>
+                        <p class="text-lg text-primary mb-6">
+                            Sweetie Legends - Match 3 Game reserves the right to monitor all Comments and to remove any Comments that can be considered inappropriate, offensive, or in breach of these Terms and Conditions.
+                        </p>
+                        <p class="text-lg text-primary mb-4 font-bold">
+                            You warrant and represent that:
+                        </p>
+                        <ul class="list-disc list-inside pl-4 mb-6">
+                            <li class="text-lg text-primary mb-2">
+                                You are entitled to post the Comments on our website and have all necessary licenses and consents to do so.
+                            </li>
+                            <li class="text-lg text-primary mb-2">
+                                The Comments do not infringe any intellectual property right, including copyright, patent, or trademark of any third party.
+                            </li>
+                            <li class="text-lg text-primary mb-2">
+                                The Comments do not contain defamatory, libelous, offensive, indecent, or otherwise unlawful material.
+                            </li>
+                            <li class="text-lg text-primary mb-2">
+                                The Comments will not be used to solicit or promote business, unlawful activity, or commercial activities.
+                            </li>
+                        </ul>
+                        <p class="text-lg text-primary">
+                            You hereby grant Sweetie Legends - Match 3 Game a non-exclusive license to use, reproduce, edit, and authorize others to use, reproduce, and edit any of your Comments in any and all forms, formats, or media.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- Hyperlinking Section -->
+    <section class="py-12 md:py-16 bg-secondary">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🔗</span> Hyperlinking to our Content
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-4 font-bold">
+                            The following organizations may link to our website without prior written approval:
+                        </p>
+                        <ul class="list-disc list-inside pl-4 mb-6">
+                            <li class="text-lg text-primary mb-2">Government agencies</li>
+                            <li class="text-lg text-primary mb-2">Search engines</li>
+                            <li class="text-lg text-primary mb-2">News organizations</li>
+                            <li class="text-lg text-primary mb-2">Online directory distributors in the same manner as they hyperlink to other listed businesses</li>
+                            <li class="text-lg text-primary mb-2">System-wide Accredited Businesses except for soliciting non-profit organizations, charity shopping malls, and charity fundraising groups</li>
+                        </ul>
+                        <p class="text-lg text-primary mb-4">
+                            These organizations may link to our home page, publications, or other website information so long as the link:
+                            <span class="block mt-2">(a) is not deceptive,</span>
+                            <span class="block">(b) does not falsely imply sponsorship or approval, and</span>
+                            <span class="block">(c) fits within the context of the linking party's site.</span>
+                        </p>
+                        <p class="text-lg text-primary mb-4 font-bold">
+                            We may approve other link requests from:
+                        </p>
+                        <ul class="list-disc list-inside pl-4 mb-6">
+                            <li class="text-lg text-primary mb-2">Consumer and business information sources</li>
+                            <li class="text-lg text-primary mb-2">Dot-com community sites</li>
+                            <li class="text-lg text-primary mb-2">Associations representing charities</li>
+                            <li class="text-lg text-primary mb-2">Online directories</li>
+                            <li class="text-lg text-primary mb-2">Internet portals</li>
+                            <li class="text-lg text-primary mb-2">Accounting, law, and consulting firms</li>
+                            <li class="text-lg text-primary mb-2">Educational institutions and trade associations</li>
+                        </ul>
+                        <p class="text-lg text-primary mb-6">
+                            If you wish to link to our website, please contact us via email with your request. Wait 2-3 weeks for a response.
+                        </p>
+                        <p class="text-lg text-primary mb-4 font-bold">
+                            Approved organizations may hyperlink to our Website as follows:
+                        </p>
+                        <ul class="list-disc list-inside pl-4 mb-6">
+                            <li class="text-lg text-primary mb-2">By use of our corporate name</li>
+                            <li class="text-lg text-primary mb-2">By use of the uniform resource locator being linked to</li>
+                            <li class="text-lg text-primary mb-2">By use of any description of our website that makes sense within the linking party's site</li>
+                        </ul>
+                        <p class="text-lg text-primary">
+                            No use of Sweetie Legends - Match 3 Game's logo or other artwork will be allowed without a trademark license agreement.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- iFrames Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🖼️</span> iFrames
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary">
+                            Without prior approval and written permission, you may not create frames around our web pages that alter the visual presentation or appearance of our Website.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Content Liability Section -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">⚠️</span> Content Liability
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary">
+                            We shall not be held responsible for any content that appears on your website. You agree to protect and defend us against all claims arising from your website. No link(s) should appear on any website that may be interpreted as libelous, obscene, or criminal.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Reservation of Rights Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🔒</span> Reservation of Rights
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary">
+                            We reserve the right to request the removal of all links or any particular link to our website. We also reserve the right to amend these terms and conditions and our linking policy at any time.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Removal of Links Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">❌</span> Removal of Links from Our Website
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary">
+                            If you find any link on our website that is offensive for any reason, you may contact us. We will consider requests to remove links, but we are not obligated to do so.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Disclaimer Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">📢</span> Disclaimer
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-6">
+                            To the maximum extent permitted by law, we exclude all representations, warranties, and conditions relating to our website and the use of this website. Nothing in this disclaimer will:
+                        </p>
+                        <ul class="list-disc list-inside pl-4 mb-6">
+                            <li class="text-lg text-primary mb-2">Limit or exclude our or your liability for death or personal injury</li>
+                            <li class="text-lg text-primary mb-2">Limit or exclude our or your liability for fraud or fraudulent misrepresentation</li>
+                            <li class="text-lg text-primary mb-2">Limit any of our or your liabilities in any way that is not permitted under applicable law</li>
+                            <li class="text-lg text-primary mb-2">Exclude any of our or your liabilities that may not be excluded under applicable law</li>
+                        </ul>
+                        <p class="text-lg text-primary mb-4">
+                            The limitations and prohibitions of liability set in this Section apply to all liabilities arising under the disclaimer, including those arising in contract, tort, or statutory duty.
+                        </p>
+                        <p class="text-lg text-primary">
+                            As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-12 md:py-16 bg-secondary">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-primary mb-8 glow">Ready to play?</h2>
+            <a href="/" class="candy-button inline-block bg-primary text-white text-xl font-bold py-4 px-8 shadow-lg hover:bg-primary hover:shadow-xl transform hover:scale-105 transition">
+                Back to Game
+            </a>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="bg-primary py-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <a href="/" class="flex items-center mb-6 md:mb-0">
+                    <div class="bg-white rounded-full w-12 h-12 flex items-center justify-center mr-3">
+                        <span class="text-3xl">🍭</span>
+                    </div>
+                    <h1 class="text-white font-bold text-xl md:text-2xl glow">Sweetie Legends</h1>
+                </a>
+
+                <div class="flex flex-wrap justify-center gap-6">
+                    <a href="/Policy356/" class="text-white hover:text-secondary transition">Privacy Policy</a>
+                    <a href="/Service347/" class="text-white hover:text-secondary transition">Terms of Use</a>
+                    <a href="/Cookie992/" class="text-white hover:text-secondary transition">Cookie Policy</a>
+
+                </div>
+            </div>
+
+            <div class="border-t border-white border-opacity-20 pt-6">
+                <p class="text-white text-center">© 2025 Sweetie Legends. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu after clicking a link
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+    <?php include '../cookie-consent.php'; ?>
+</body>
+
+</html>

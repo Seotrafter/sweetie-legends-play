@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweetie Legends - Match 3 Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel='icon' href='/src/icons/logo.png' type='image/x-icon'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            text-shadow: 0 0 10px rgba(255, 66, 116, 0.7);
+        }
+
+        .glow {
+            text-shadow: 0 0 10px rgba(255, 66, 116, 0.7);
+        }
+
+        .candy-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border-radius: 0;
+        }
+
+        .candy-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .candy-button:hover:before {
+            left: 100%;
+        }
+
+        section {
+            overflow: hidden;
+        }
+
+        /* Animation for section transitions */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section>div {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff4274',
+                        secondary: '#abdfab',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-white">
+    <!-- Header -->
+    <header class="bg-primary sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="/" class="flex items-center">
+                    <div class="bg-white rounded-full w-12 h-12 flex items-center justify-center mr-3">
+                        <span class="text-3xl">🍭</span>
+                    </div>
+                    <h1 class="text-white font-bold text-xl md:text-2xl glow">Sweetie Legends</h1>
+                </a>
+
+                <nav class="hidden md:flex space-x-8">
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Features</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Pets</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Gameplay</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Reviews</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Download</a>
+                </nav>
+
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-white text-2xl focus:outline-none">≡</button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Features</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Pets</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Gameplay</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Reviews</a>
+                    <a href="/" class="text-white font-bold hover:text-secondary transition">Download</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Privacy Policy Header Section -->
+    <section class="py-16 md:py-24 bg-primary relative overflow-hidden">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 glow">Privacy Policy</h1>
+                <p class="text-xl text-white mb-8 max-w-3xl mx-auto">For Sweetie Legends - Match 3 Game</p>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120">
+                <path fill="#ffffff" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,69.3C960,85,1056,107,1152,101.3C1248,96,1344,64,1392,48L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-secondary p-8 shadow-xl mb-8">
+                    <p class="text-xl text-primary mb-6">
+                        At Sweetie Legends - Match 3 Game, accessible from https://sweetie-legends-play.com/, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that are collected and recorded by Sweetie Legends - Match 3 Game and how we use it.
+                    </p>
+                    <p class="text-xl text-primary">
+                        If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.
+                    </p>
+                </div>
+
+                <!-- Log Files Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">📋</span> Log Files
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-4">
+                            Sweetie Legends - Match 3 Game follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and are a part of hosting services' analytics.
+                        </p>
+                        <p class="text-lg text-primary mb-4">
+                            The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any personally identifiable information.
+                        </p>
+                        <p class="text-lg text-primary">
+                            The purpose of the information is to analyze trends, administer the site, track users' movement on the website, and gather demographic information.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Cookies Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🍪</span> Cookies and Web Beacons
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-4">
+                            Like any other website, Sweetie Legends - Match 3 Game uses "cookies." These cookies are used to store information, including visitors' preferences and the pages on the website that the visitor accessed or visited.
+                        </p>
+                        <p class="text-lg text-primary mb-4">
+                            The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.
+                        </p>
+                        <p class="text-lg text-primary">
+                            For more general information on cookies, please read the "Cookies" article from the Privacy Policy Generator.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Google DART Section -->
+    <section class="py-12 md:py-16 bg-secondary">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🔍</span> Google DoubleClick DART Cookie
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-4">
+                            Google is one of the third-party vendors on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to https://sweetie-legends-play.com/ and other sites on the internet.
+                        </p>
+                        <p class="text-lg text-primary">
+                            However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at the following URL – <a href="https://policies.google.com/technologies/ads" class="text-primary font-bold hover:underline">https://policies.google.com/technologies/ads</a>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Advertising Partners Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🤝</span> Our Advertising Partners
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-4">
+                            Some advertisers on our site may use cookies and web beacons. Our advertising partners are listed below. Each of our advertising partners has its own Privacy Policy for their policies on user data. For easier access, we hyperlinked to their Privacy Policies below:
+                        </p>
+                        <ul class="list-disc list-inside mb-4 pl-4">
+                            <li class="text-lg text-primary mb-2">
+                                <span class="font-bold">Google</span> - <a href="https://policies.google.com/technologies/ads" class="text-primary font-bold hover:underline">https://policies.google.com/technologies/ads</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Privacy Policies Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">📜</span> Privacy Policies
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-4">
+                            You may consult this list to find the Privacy Policy for each of the advertising partners of Sweetie Legends - Match 3 Game.
+                        </p>
+                        <p class="text-lg text-primary mb-4">
+                            Third-party ad servers or ad networks use technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on Sweetie Legends - Match 3 Game, which are sent directly to users' browsers. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit.
+                        </p>
+                        <p class="text-lg text-primary">
+                            Note that Sweetie Legends - Match 3 Game has no access to or control over these cookies that are used by third-party advertisers.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Third-Party Policies Section -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🔒</span> Third-Party Privacy Policies
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-4">
+                            Sweetie Legends - Match 3 Game's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information. It may include their practices and instructions about how to opt out of certain options.
+                        </p>
+                        <p class="text-lg text-primary">
+                            You can choose to disable cookies through your browser settings. More detailed information about cookie management with specific web browsers can be found on the browsers' respective websites.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Children's Information Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">👶</span> Children's Information
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary mb-4">
+                            Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity.
+                        </p>
+                        <p class="text-lg text-primary">
+                            Sweetie Legends - Match 3 Game does not knowingly collect any personally identifiable information from children under the age of 13. If you believe that your child provided this kind of information on our website, we strongly encourage you to contact us immediately, and we will do our best to promptly remove such information from our records.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Online Privacy Policy Section -->
+                <div class="mb-12">
+                    <div class="bg-primary p-6 mb-6">
+                        <h2 class="text-3xl font-bold text-white flex items-center">
+                            <span class="text-3xl mr-3">🌐</span> Online Privacy Policy Only
+                        </h2>
+                    </div>
+                    <div class="bg-white border-2 border-primary p-6">
+                        <p class="text-lg text-primary">
+                            This Privacy Policy applies only to our online activities and is valid for visitors to our website regarding the information they share and/or collect on Sweetie Legends - Match 3 Game. This policy does not apply to any information collected offline or via channels other than this website.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-12 md:py-16 bg-secondary">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-primary mb-8 glow">Ready to play?</h2>
+            <a href="/" class="candy-button inline-block bg-primary text-white text-xl font-bold py-4 px-8 shadow-lg hover:bg-primary hover:shadow-xl transform hover:scale-105 transition">
+                Back to Game
+            </a>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-primary py-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <a href="/" class="flex items-center mb-6 md:mb-0">
+                    <div class="bg-white rounded-full w-12 h-12 flex items-center justify-center mr-3">
+                        <span class="text-3xl">🍭</span>
+                    </div>
+                    <h1 class="text-white font-bold text-xl md:text-2xl glow">Sweetie Legends</h1>
+                </a>
+
+                <div class="flex flex-wrap justify-center gap-6">
+                    <a href="/Policy356/" class="text-white hover:text-secondary transition">Privacy Policy</a>
+                    <a href="/Service347/" class="text-white hover:text-secondary transition">Terms of Use</a>
+                    <a href="/Cookie992/" class="text-white hover:text-secondary transition">Cookie Policy</a>
+
+                </div>
+            </div>
+
+            <div class="border-t border-white border-opacity-20 pt-6">
+                <p class="text-white text-center">© 2025 Sweetie Legends. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu after clicking a link
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+    <?php include '../cookie-consent.php'; ?>
+</body>
+
+</html>
